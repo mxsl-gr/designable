@@ -1,5 +1,5 @@
 import 'antd/dist/antd.less'
-import React, { useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import ReactDOM from 'react-dom'
 import {
   Designer,
@@ -24,6 +24,7 @@ import {
 } from '@designable/react-settings-form'
 import {
   createDesigner,
+  createResource,
   GlobalRegistry,
   Shortcut,
   KeyCode,
@@ -59,6 +60,7 @@ import {
   ArrayCards,
   ObjectContainer,
   ArrayTable,
+  DataTable,
   Space,
   FormTab,
   FormCollapse,
@@ -71,6 +73,7 @@ setNpmCDNRegistry('//unpkg.com')
 GlobalRegistry.registerDesignerLocales({
   'zh-CN': {
     sources: {
+      Fields: '字段控件',
       Inputs: '输入控件',
       Layouts: '布局组件',
       Arrays: '自增组件',
@@ -96,6 +99,22 @@ GlobalRegistry.registerDesignerLocales({
 })
 
 const App = () => {
+
+  const [ uninitialized, setInit ] = useState(true);
+  const [ fieldComponents, setFieldComponents ] = useState([])
+
+  useEffect(() => {
+    if(uninitialized) {
+      window.loadFields({
+        onSuccess: (json) => {
+          const fields = JSON.parse(json).map(createResource);
+          setInit(false);
+          setFieldComponents(fields)
+        },
+      });
+    }
+  })
+
   const engine = useMemo(
     () =>
       createDesigner({
@@ -117,29 +136,32 @@ const App = () => {
   return (
     <Designer engine={engine}>
       <StudioPanel logo={<LogoWidget />} actions={<ActionsWidget />}>
-        <CompositePanel>
+        <CompositePanel defaultOpen={false}>
           <CompositePanel.Item title="panels.Component" icon="Component">
             <ResourceWidget
-              title="sources.Inputs"
-              sources={[
-                Input,
-                Password,
-                NumberPicker,
-                Rate,
-                Slider,
-                Select,
-                TreeSelect,
-                Cascader,
-                Transfer,
-                Checkbox,
-                Radio,
-                DatePicker,
-                TimePicker,
-                Upload,
-                Switch,
-                ObjectContainer,
-              ]}
-            />
+              title="sources.Fields"
+              sources={fieldComponents}
+            /><ResourceWidget
+            title="sources.Inputs"
+            sources={[
+              Input,
+              Password,
+              NumberPicker,
+              Rate,
+              Slider,
+              Select,
+              TreeSelect,
+              Cascader,
+              Transfer,
+              Checkbox,
+              Radio,
+              DatePicker,
+              TimePicker,
+              Upload,
+              Switch,
+              ObjectContainer,
+            ]}
+          />
             <ResourceWidget
               title="sources.Layouts"
               sources={[
@@ -153,7 +175,7 @@ const App = () => {
             />
             <ResourceWidget
               title="sources.Arrays"
-              sources={[ArrayCards, ArrayTable]}
+              sources={[ArrayCards, ArrayTable, DataTable]}
             />
             <ResourceWidget title="sources.Displays" sources={[Text]} />
           </CompositePanel.Item>
@@ -198,6 +220,7 @@ const App = () => {
                       Card,
                       ArrayCards,
                       ArrayTable,
+                      DataTable,
                       Space,
                       FormTab,
                       FormCollapse,

@@ -1,8 +1,46 @@
 <!DOCTYPE html>
 <head>
+  
   <title>
     Designable Playground
   </title>
+  <script>
+    window.loadFields = ({ onSuccess }) => {
+      const json = JSON.stringify([{
+        icon: 'InputSource',
+        title: '订单编号',
+        elements: [
+          {
+            componentName: 'Field',
+            props: {
+              type: 'string | number',
+              name: "orderNumber",
+              title: '订单编号',
+              'x-decorator': 'FormItem',
+              'x-component': 'Radio.Group',
+              enum: [
+                { label: '选项1', value: 1 },
+                { label: '选项2', value: 2 },
+              ],
+            },
+          },
+        ],
+      }])
+      setTimeout(() => onSuccess(json), 1000)
+    }
+
+    window.loadConfig = function ({ onSuccess }) {
+      onSuccess(JSON.parse(localStorage.getItem('formily-schema')))
+    }
+
+    window.saveConfig = function ({ request, onSuccess }) {
+      localStorage.setItem(
+        'formily-schema',
+        JSON.stringify(request)
+      )
+      onSuccess()
+    }
+  </script>
   <style>
     html,body{
       user-select: none;
@@ -13,8 +51,8 @@
 <body>
   <div id="root">
   </div>
-  <script src="https://unpkg.com/moment/min/moment-with-locales.js"></script>
+  <!-- <script src="https://unpkg.com/moment/min/moment-with-locales.js"></script>
   <script src="https://unpkg.com/react/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/antd/dist/antd-with-locales.min.js"></script>
+  <script src="https://unpkg.com/antd/dist/antd-with-locales.min.js"></script> -->
 </body>

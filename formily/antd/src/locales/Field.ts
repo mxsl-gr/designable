@@ -1,6 +1,7 @@
 export const Field = {
   'zh-CN': {
     settings: {
+      'x-component': '组件类型',
       name: '字段标识',
       title: '标题',
       required: '必填',

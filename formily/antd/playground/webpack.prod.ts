@@ -29,6 +29,11 @@ export default {
         template: path.resolve(__dirname, './template.ejs'),
         chunk: ['playground'],
       },
+      {
+        filename: 'plugin.html',
+        template: path.resolve(__dirname, './plugin.ejs'),
+        chunk: ['playground'],
+      },
     ]),
     new MonacoPlugin({
       languages: ['json'],

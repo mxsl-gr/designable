@@ -85,6 +85,12 @@ export const createFieldSchema = (
         type: 'void',
         'x-component': 'CollapseItem',
         properties: {
+          "x-component": {
+            type: 'string',
+            'x-decorator': 'FormItem',
+            'x-component': 'Select',
+            enum: ['Input','Password','NumberPicker','Rate','Slider','Select','TreeSelect','Cascader','Transfer','Checkbox','Radio','DatePicker','TimePicker','Upload','Switch','ObjectContainer'],
+          },
           name: {
             type: 'string',
             'x-decorator': 'FormItem',
@@ -156,11 +162,25 @@ export const createVoidFieldSchema = (
       'field-group': {
         type: 'void',
         'x-component': 'CollapseItem',
+        'x-reactions': {
+          fulfill: {
+            state: {
+              hidden: '{{$self.props["name"] === "testabc"}}',
+            },
+          },
+        },
         properties: {
           name: {
             type: 'string',
             'x-decorator': 'FormItem',
             'x-component': 'Input',
+            'x-reactions': {
+              fulfill: {
+                state: {
+                  hidden: '{{$self.props["title"] === "testabc"}}',
+                },
+              },
+            },
           },
           title: {
             type: 'string',

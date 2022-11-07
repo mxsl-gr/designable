@@ -30,6 +30,7 @@ import {
   ArrayCards,
 } from '@formily/antd'
 import { Card, Slider, Rate } from 'antd'
+import { DataTable } from '../../src/components/DataTable';
 import { TreeNode } from '@designable/core'
 import { transformToSchema } from '@designable/formily-transformer'
 
@@ -73,6 +74,7 @@ const SchemaField = createSchemaField({
     Card,
     Slider,
     Rate,
+    DataTable,
   },
 })
 
